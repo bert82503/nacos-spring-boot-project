@@ -23,7 +23,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://nacos.io/schema/nacos
         http://nacos.io/schema/nacos.xsd">
-
+    <!--  属性源：应用名称(name)、分组身份(group-id)、数据身份(data-id)  -->
     <nacos:property-source data-id="user" auto-refreshed="true" />
 
 </beans>
