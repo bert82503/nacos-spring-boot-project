@@ -1,9 +1,16 @@
+
+# 自动配置
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.alibaba.boot.nacos.config.autoconfigure.NacosConfigAutoConfiguration
+com.alibaba.boot.nacos.config.autoconfigure.NacosConfigAutoConfiguration
+
 #org.springframework.context.ApplicationContextInitializer=\
 #  com.alibaba.boot.nacos.config.autoconfigure.NacosConfigApplicationContextInitializer
+
+# 环境后置处理器
 org.springframework.boot.env.EnvironmentPostProcessor=\
-  com.alibaba.boot.nacos.config.autoconfigure.NacosConfigEnvironmentProcessor,\
-  com.alibaba.boot.nacos.config.support.MultiProfilesYamlConfigParseSupport
+com.alibaba.boot.nacos.config.autoconfigure.NacosConfigEnvironmentProcessor,\
+com.alibaba.boot.nacos.config.support.MultiProfilesYamlConfigParseSupport
+
+# 应用监视器
 org.springframework.context.ApplicationListener=\
-  com.alibaba.boot.nacos.config.logging.NacosLoggingListener
+com.alibaba.boot.nacos.config.logging.NacosLoggingListener
