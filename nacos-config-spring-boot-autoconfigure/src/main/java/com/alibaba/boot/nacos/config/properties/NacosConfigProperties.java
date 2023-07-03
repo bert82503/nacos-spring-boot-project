@@ -31,55 +31,120 @@ import org.springframework.util.Assert;
 
 /**
  * {@link ConfigurationProperties} for configuring Nacos Config.
+ * 配置属性集
  *
  * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
+ * @see ConfigurationProperties
  */
 @ConfigurationProperties(NacosConfigConstants.PREFIX)
 public class NacosConfigProperties {
 
+	/**
+	 * 服务端地址
+	 */
 	private String serverAddr = "127.0.0.1:8848";
 
 	private String contextPath;
 
+	/**
+	 * 数据编码
+	 */
 	private String encode;
 
+	/**
+	 * 应用端点
+	 */
 	private String endpoint;
 
+	/**
+	 * 命名空间
+	 */
 	private String namespace;
 
+	/**
+	 * 访问键
+	 */
 	private String accessKey;
 
+	/**
+	 * 密钥键
+	 */
 	private String secretKey;
 
+	/**
+	 * 原始角色名称
+	 */
 	private String ramRoleName;
 
+	/**
+	 * 配置自动刷新启用
+	 */
 	private boolean autoRefresh = false;
 
+	/**
+	 * 数据身份
+	 */
 	private String dataId;
 
+	/**
+	 * 数据身份列表
+	 */
 	private String dataIds;
 
+	/**
+	 * 分组身份
+	 */
 	private String group = Constants.DEFAULT_GROUP;
 
+	/**
+	 * 配置类型
+	 */
 	private ConfigType type = ConfigType.PROPERTIES;
 
+	/**
+	 * 最大重试次数
+	 */
 	private String maxRetry;
 
+	/**
+	 * 长轮询连接的超时时间
+	 */
 	private String configLongPollTimeout;
 
+	/**
+	 * 重试时间
+	 */
 	private String configRetryTime;
 
+	/**
+	 * 远程同步配置启用
+	 */
 	private boolean enableRemoteSyncConfig = false;
 
+	/**
+	 * 用户名称
+	 */
 	private String username;
 
+	/**
+	 * 密码
+	 */
 	private String password;
 
+	/**
+	 * 远程配置优先
+	 */
 	private boolean remoteFirst = false;
 
+	/**
+	 * 扩展配置
+	 */
 	@JsonIgnore
 	private List<Config> extConfig = new ArrayList<>();
 
+	/**
+	 * 引导配置属性
+	 */
 	@NestedConfigurationProperty
 	private Bootstrap bootstrap = new Bootstrap();
 
@@ -286,12 +351,24 @@ public class NacosConfigProperties {
 		return sb.toString();
 	}
 
+	/**
+	 * 引导配置
+	 */
 	public static class Bootstrap {
 
+		/**
+		 * 启用开关
+		 */
 		private boolean enable;
 
+		/**
+		 * 日志启用
+		 */
 		private boolean logEnable;
 
+		/**
+		 * 快照启用
+		 */
 		private boolean snapshotEnable;
 
 		public boolean isEnable() {
@@ -329,40 +406,94 @@ public class NacosConfigProperties {
 		}
 	}
 
+	/**
+	 * 扩展配置
+	 */
 	public static class Config {
 
+		/**
+		 * 服务端地址
+		 */
 		private String serverAddr;
 
+		/**
+		 * 应用端点
+		 */
 		private String endpoint;
 
+		/**
+		 * 命名空间
+		 */
 		private String namespace;
 
+		/**
+		 * 访问键
+		 */
 		private String accessKey;
 
+		/**
+		 * 密钥键
+		 */
 		private String secretKey;
 
+		/**
+		 * 原始角色名称
+		 */
 		private String ramRoleName;
 
+		/**
+		 * 数据身份
+		 */
 		private String dataId;
 
+		/**
+		 * 数据身份列表
+		 */
 		private String dataIds;
 
+		/**
+		 * 分组身份
+		 */
 		private String group = Constants.DEFAULT_GROUP;
 
+		/**
+		 * 配置类型
+		 */
 		private ConfigType type;
 
+		/**
+		 * 最大重试次数
+		 */
 		private String maxRetry;
 
+		/**
+		 * 长轮询连接的超时时间
+		 */
 		private String configLongPollTimeout;
 
+		/**
+		 * 重试时间
+		 */
 		private String configRetryTime;
 
+		/**
+		 * 配置自动刷新启用
+		 */
 		private boolean autoRefresh = false;
 
+		/**
+		 * 远程同步配置启用
+		 */
 		private boolean enableRemoteSyncConfig = false;
 
+		/**
+		 * 用户名称
+		 */
 		private String username;
 
+		/**
+		 * 密码
+		 */
 		private String password;
 
 		public String getUsername() {

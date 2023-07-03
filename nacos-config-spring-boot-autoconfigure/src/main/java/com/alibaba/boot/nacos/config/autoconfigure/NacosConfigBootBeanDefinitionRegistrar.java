@@ -39,6 +39,7 @@ public class NacosConfigBootBeanDefinitionRegistrar
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) beanFactory;
+		// 配置属性集绑定者
 		BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder
 				.rootBeanDefinition(NacosBootConfigurationPropertiesBinder.class);
 		defaultListableBeanFactory.registerBeanDefinition(
@@ -49,6 +50,6 @@ public class NacosConfigBootBeanDefinitionRegistrar
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 			BeanDefinitionRegistry registry) {
-
+		//
 	}
 }

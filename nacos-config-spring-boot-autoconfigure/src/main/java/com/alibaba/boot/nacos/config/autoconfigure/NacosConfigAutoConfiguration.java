@@ -31,15 +31,20 @@ import static com.alibaba.nacos.spring.util.NacosBeanUtils.CONFIG_GLOBAL_NACOS_P
 
 /**
  * Nacos Config Auto {@link Configuration}
+ * 自动配置
  *
  * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
+ * @see EnableNacosConfig
+ * @see EnableConfigurationProperties
  */
+// 属性条件匹配注入
 @ConditionalOnProperty(name = NacosConfigConstants.ENABLED, matchIfMissing = true)
 @ConditionalOnMissingBean(name = CONFIG_GLOBAL_NACOS_PROPERTIES_BEAN_NAME)
+// 配置属性集
 @EnableConfigurationProperties(value = NacosConfigProperties.class)
 @ConditionalOnClass(name = "org.springframework.boot.context.properties.bind.Binder")
 @Import(value = { NacosConfigBootBeanDefinitionRegistrar.class })
 @EnableNacosConfig
 public class NacosConfigAutoConfiguration {
-
+    //
 }
