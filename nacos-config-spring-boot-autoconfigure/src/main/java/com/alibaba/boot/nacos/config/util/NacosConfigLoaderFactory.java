@@ -25,19 +25,27 @@ import java.util.function.Function;
 
 /**
  * NacosConfigLoaderFactory.
+ * 配置加载器工厂
  * @author hujun
  */
 public class NacosConfigLoaderFactory {
 
+    /**
+     * 配置加载器
+     */
     private static volatile NacosConfigLoader nacosConfigLoader;
 
-    public static NacosConfigLoader getSingleton(NacosConfigProperties nacosConfigProperties,
-                                                 ConfigurableEnvironment environment,
-                                                 Function<Properties, ConfigService> builder) {
+    public static NacosConfigLoader getSingleton(
+            NacosConfigProperties nacosConfigProperties,
+            ConfigurableEnvironment environment,
+            Function<Properties, ConfigService> builder) {
+        // 双重null检查
         if (nacosConfigLoader == null) {
             synchronized (NacosConfigLoaderFactory.class) {
                 if (nacosConfigLoader == null) {
-                    nacosConfigLoader = new NacosConfigLoader(nacosConfigProperties, environment, builder);
+                    // 创建配置加载器
+                    nacosConfigLoader = new NacosConfigLoader(
+                            nacosConfigProperties, environment, builder);
                 }
             }
         }
