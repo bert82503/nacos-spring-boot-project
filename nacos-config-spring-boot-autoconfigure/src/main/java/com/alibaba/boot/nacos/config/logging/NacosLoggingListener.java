@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.alibaba.boot.nacos.config.logging;
-
 
 import com.alibaba.boot.nacos.config.properties.NacosConfigProperties;
 import com.alibaba.boot.nacos.config.util.NacosConfigPropertiesUtils;
@@ -38,6 +36,8 @@ public class NacosLoggingListener implements GenericApplicationListener {
 	public boolean supportsEventType(ResolvableType resolvableType) {
 		Class<?> type = resolvableType.getRawClass();
 		if (type != null) {
+			// 应用环境已准备好事件
+			// 当SpringApplication启动并且环境首次可用于检查和修改时发布的事件
 			return ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(type);
 		}
 		return false;
@@ -52,6 +52,7 @@ public class NacosLoggingListener implements GenericApplicationListener {
 	public void onApplicationEvent(ApplicationEvent applicationEvent) {
 		//If the managed log is enabled, load your own log configuration after loading the user log configuration
 		ApplicationEnvironmentPreparedEvent applicationEnvironmentPreparedEvent = (ApplicationEnvironmentPreparedEvent) applicationEvent;
+		// 基于应用环境构建配置属性集
 		NacosConfigProperties nacosConfigProperties = NacosConfigPropertiesUtils.buildNacosConfigProperties(
 				applicationEnvironmentPreparedEvent.getEnvironment());
 		if(nacosConfigProperties.getBootstrap().isLogEnable()){

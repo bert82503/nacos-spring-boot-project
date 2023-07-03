@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * yaml multi profiles.
  * <p>
- * read nacos propertysource:
+ * read nacos PropertySource:
  * <p>
  * 1. {@link AbstractNacosPropertySourceBuilder#doBuild(String, BeanDefinition, Map)}<br/>
  * 2. {@link NacosPropertySource#NacosPropertySource(String, String, String, String, String)}<br/>

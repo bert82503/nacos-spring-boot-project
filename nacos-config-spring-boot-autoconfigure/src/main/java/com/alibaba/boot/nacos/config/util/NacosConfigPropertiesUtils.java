@@ -39,6 +39,7 @@ public class NacosConfigPropertiesUtils {
 
 	public static NacosConfigProperties buildNacosConfigProperties(
 			ConfigurableEnvironment environment) {
+		// 配置属性集
 		NacosConfigProperties nacosConfigProperties = new NacosConfigProperties();
 		Binder binder = Binder.get(environment);
 		ResolvableType type = ResolvableType.forClass(NacosConfigProperties.class);

@@ -29,6 +29,9 @@ public interface NacosConfigConstants {
 
 	String ENABLED = EnableNacosConfig.CONFIG_PREFIX + "enabled";
 
+	/**
+	 * 配置前缀
+	 */
 	String PREFIX = "nacos.config";
 
 	String NACOS_BOOTSTRAP = PREFIX + ".bootstrap.enable";
