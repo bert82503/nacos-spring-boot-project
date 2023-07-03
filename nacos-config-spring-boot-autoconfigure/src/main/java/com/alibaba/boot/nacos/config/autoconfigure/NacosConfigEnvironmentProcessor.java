@@ -43,6 +43,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * In the Context to create premise before loading the log configuration information
+ * 在加载日志配置信息之前创建前提的服务
  *
  * @author <a href="mailto:liaochunyhm@live.com">liaochuntao</a>
  * @since 0.2.3
@@ -52,23 +53,41 @@ public class NacosConfigEnvironmentProcessor
 
 	private final Logger logger = LoggerFactory
 			.getLogger(NacosConfigEnvironmentProcessor.class);
+	/**
+	 * 可缓存的事件发布的配置服务工厂
+	 */
 	private final CacheableEventPublishingNacosServiceFactory nacosServiceFactory = CacheableEventPublishingNacosServiceFactory
 			.getSingleton();
+	/**
+	 * 配置服务缓存
+	 */
 	private final Map<String, ConfigService> serviceCache = new HashMap<>(8);
+	/**
+	 * 延迟服务的属性源列表
+	 */
 	private final LinkedList<NacosConfigLoader.DeferNacosPropertySource> deferPropertySources = new LinkedList<>();
+	/**
+	 * 配置属性集
+	 */
 	private NacosConfigProperties nacosConfigProperties;
 
 	// Because ApplicationContext has not been injected at preload time, need to manually
 	// cache the created Service to prevent duplicate creation
+	/**
+	 * 配置服务构建者
+	 */
 	private Function<Properties, ConfigService> builder = properties -> {
 		try {
+			// 配置属性集身份
 			final String key = NacosUtils.identify(properties);
 			if (serviceCache.containsKey(key)) {
 				return serviceCache.get(key);
 			}
+			// 创建配置服务
 			final ConfigService configService = NacosFactory
 					.createConfigService(properties);
 			serviceCache.put(key, configService);
+			// 发布延迟服务
 			return nacosServiceFactory.deferCreateService(configService, properties);
 		}
 		catch (NacosException e) {
@@ -80,23 +99,37 @@ public class NacosConfigEnvironmentProcessor
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment,
 			SpringApplication application) {
+		// 应用上下文初始化程序
 		application.addInitializers(new NacosConfigApplicationContextInitializer(this));
+		// 基于环境组件构建配置属性集
 		nacosConfigProperties = NacosConfigPropertiesUtils
 				.buildNacosConfigProperties(environment);
 		if (enable()) {
+			// 预加载的日志配置
 			System.out.println(
 					"[Nacos Config Boot] : The preload log configuration is enabled");
-			loadConfig(environment);
-			NacosConfigLoader nacosConfigLoader = NacosConfigLoaderFactory.getSingleton(nacosConfigProperties, environment, builder);
-			LogAutoFreshProcess.build(environment, nacosConfigProperties, nacosConfigLoader, builder).process();
+			// 加载配置
+			this.loadConfig(environment);
+			// 配置加载器
+			NacosConfigLoader nacosConfigLoader = NacosConfigLoaderFactory
+					.getSingleton(nacosConfigProperties, environment, builder);
+			// 构建日志自动刷新处理程序
+			LogAutoFreshProcess.build(environment, nacosConfigProperties, nacosConfigLoader, builder)
+					.process();
 		}
 	}
 
+	/**
+	 * 加载配置
+	 */
 	private void loadConfig(ConfigurableEnvironment environment) {
+		// 配置加载器
 		NacosConfigLoader configLoader = new NacosConfigLoader(nacosConfigProperties,
 				environment, builder);
+		// 加载配置
 		configLoader.loadConfig();
 		// set defer NacosPropertySource
+		// 添加所有配置属性源列表到延迟服务属性源列表
 		deferPropertySources.addAll(configLoader.getNacosPropertySources());
 	}
 
@@ -121,9 +154,14 @@ public class NacosConfigEnvironmentProcessor
 		return Ordered.LOWEST_PRECEDENCE - 5;
 	}
 
+	/**
+	 * 发布延迟服务
+	 */
 	void publishDeferService(ApplicationContext context) {
 		try {
+			// 发布延迟服务
 			nacosServiceFactory.publishDeferService(context);
+			// 清空服务缓存
 			serviceCache.clear();
 		}
 		catch (Exception e) {

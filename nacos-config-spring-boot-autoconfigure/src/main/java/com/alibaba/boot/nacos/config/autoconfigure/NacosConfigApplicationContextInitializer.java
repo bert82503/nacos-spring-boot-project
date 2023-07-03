@@ -45,11 +45,18 @@ public class NacosConfigApplicationContextInitializer
 
 	private final Logger logger = LoggerFactory
 			.getLogger(NacosConfigApplicationContextInitializer.class);
+	/**
+	 * 配置环境处理器
+	 */
 	private final NacosConfigEnvironmentProcessor processor;
+	/**
+	 * 可缓存的事件发布的服务工厂
+	 */
 	private final CacheableEventPublishingNacosServiceFactory singleton = CacheableEventPublishingNacosServiceFactory
 			.getSingleton();
 	private final Function<Properties, ConfigService> builder = properties -> {
 		try {
+			// 创建配置服务
 			return singleton.createConfigService(properties);
 		}
 		catch (NacosException e) {
@@ -57,7 +64,13 @@ public class NacosConfigApplicationContextInitializer
 					"ConfigService can't be created with properties : " + properties, e);
 		}
 	};
+	/**
+	 * 可配置的环境组件
+	 */
 	private ConfigurableEnvironment environment;
+	/**
+	 * 配置属性集
+	 */
 	private NacosConfigProperties nacosConfigProperties;
 
 	public NacosConfigApplicationContextInitializer(
@@ -67,10 +80,13 @@ public class NacosConfigApplicationContextInitializer
 
 	@Override
 	public void initialize(ConfigurableApplicationContext context) {
+		// 应用上下文、环境组件、配置属性集
 		singleton.setApplicationContext(context);
 		environment = context.getEnvironment();
+		// 构建配置属性集
 		nacosConfigProperties = NacosConfigPropertiesUtils
 				.buildNacosConfigProperties(environment);
+		// 配置加载器
 		final NacosConfigLoader configLoader = NacosConfigLoaderFactory.getSingleton(
 				nacosConfigProperties, environment, builder);
 
@@ -87,12 +103,16 @@ public class NacosConfigApplicationContextInitializer
 			// DeferNacosPropertySource release
 
 			if (processor.enable()) {
+				// 发布延迟服务
 				processor.publishDeferService(context);
+				// 增加自动刷新的监视器
 				configLoader
 						.addListenerIfAutoRefreshed(processor.getDeferPropertySources());
 			}
 			else {
+				// 加载配置
 				configLoader.loadConfig();
+				// 增加自动刷新的监视器
 				configLoader.addListenerIfAutoRefreshed();
 			}
 		}
@@ -100,6 +120,7 @@ public class NacosConfigApplicationContextInitializer
 		final ConfigurableListableBeanFactory factory = context.getBeanFactory();
 		if (!factory
 				.containsSingleton(NacosBeanUtils.GLOBAL_NACOS_PROPERTIES_BEAN_NAME)) {
+			// 注册从配置加载器加载的全局属性集
 			factory.registerSingleton(NacosBeanUtils.GLOBAL_NACOS_PROPERTIES_BEAN_NAME,
 					configLoader.getGlobalProperties());
 		}
