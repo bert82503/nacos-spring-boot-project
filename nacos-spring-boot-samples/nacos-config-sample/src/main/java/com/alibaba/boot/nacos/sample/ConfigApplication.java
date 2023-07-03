@@ -38,21 +38,31 @@ import static org.springframework.core.env.StandardEnvironment.SYSTEM_ENVIRONMEN
 import static org.springframework.core.env.StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME;
 
 /**
+ * 应用程序启动入口
+ *
  * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
+ * @see EnableNacosConfig
+ * @see NacosPropertySource
  */
 @SpringBootApplication
-@NacosPropertySource(name = "custom", dataId = ConfigApplication.DATA_ID, first = true, before = SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME, after = SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)
+@NacosPropertySource(name = "custom", dataId = ConfigApplication.DATA_ID, first = true,
+		before = SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME, after = SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)
 @EnableScheduling
 @EnableNacosConfig
 public class ConfigApplication {
 
 	public static final String content = "dept=Aliware\ngroup=Alibaba";
 
+	/**
+	 * 数据身份
+	 */
 	public static final String DATA_ID = "test";
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConfigApplication.class, args);
 	}
+
+	// 组件
 
 	@Bean
 	@Order(Ordered.LOWEST_PRECEDENCE)
@@ -71,6 +81,8 @@ public class ConfigApplication {
 		return new Foo();
 	}
 
+	// 配置
+
 	@Configuration
 	@ConditionalOnProperty(prefix = "people", name = "enable", havingValue = "true")
 	protected static class People {
@@ -85,13 +97,20 @@ public class ConfigApplication {
 
 	public static class FirstCommandLineRunner implements CommandLineRunner {
 
+		/**
+		 * 配置服务
+		 *
+		 * @see NacosInjected
+		 */
 		@NacosInjected
 		private ConfigService configService;
 
 		@Override
 		public void run(String... args) throws Exception {
+			// 发布配置
 			if (configService.publishConfig(DATA_ID, Constants.DEFAULT_GROUP, content)) {
 				Thread.sleep(200);
+				// 获取配置属性
 				System.out.println("First runner success: " + configService
 						.getConfig(DATA_ID, Constants.DEFAULT_GROUP, 5000));
 			}
@@ -103,12 +122,20 @@ public class ConfigApplication {
 
 	public static class SecondCommandLineRunner implements CommandLineRunner {
 
+		/**
+		 * 配置属性值
+		 *
+		 * @see NacosValue
+		 */
 		@NacosValue("${dept:unknown}")
 		private String dept;
 
 		@NacosValue("${group:unknown}")
 		private String group;
 
+		/**
+		 * 配置属性集
+		 */
 		@Autowired
 		private Foo foo;
 

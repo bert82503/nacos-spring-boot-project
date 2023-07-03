@@ -25,8 +25,10 @@ import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 配置属性集
+ *
  * @author <a href="mailto:liaochunyhm@live.com">liaochuntao</a>
- * @since
+ * @see NacosConfigurationProperties
  */
 @NacosConfigurationProperties(prefix = "apple", dataId = "apple", type = ConfigType.YAML, autoRefreshed = true)
 @Configuration

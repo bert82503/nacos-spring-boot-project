@@ -46,6 +46,11 @@ public class PrintLogger {
 	@Autowired
 	private LoggingSystem loggingSystem;
 
+	/**
+	 * 配置监视器
+	 *
+	 * @see NacosConfigListener
+	 */
 	@NacosConfigListener(dataId = "${nacos.example.listener.data-id}", timeout = 5000)
 	public void onChange(String newLog) throws Exception {
 		Map<String, Object> properties = new DefaultPropertiesConfigParse().parse(newLog);
@@ -53,6 +58,7 @@ public class PrintLogger {
 			String key = String.valueOf(t);
 			if (key.startsWith(LOGGER_TAG)) {
 				String strLevel = (String) properties.getOrDefault(key, "info");
+				// 更新日志等级
 				LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
 				loggingSystem.setLogLevel(key.replace(LOGGER_TAG, ""), level);
 				logger.info("{}:{}", key, strLevel);

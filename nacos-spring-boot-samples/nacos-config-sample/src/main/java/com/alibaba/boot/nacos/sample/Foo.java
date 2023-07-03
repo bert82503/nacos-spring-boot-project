@@ -19,7 +19,10 @@ package com.alibaba.boot.nacos.sample;
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties;
 
 /**
+ * 配置属性集
+ *
  * @author <a href="mailto:fangjian0423@gmail.com">Jim</a>
+ * @see NacosConfigurationProperties
  */
 @NacosConfigurationProperties(dataId = ConfigApplication.DATA_ID)
 public class Foo {

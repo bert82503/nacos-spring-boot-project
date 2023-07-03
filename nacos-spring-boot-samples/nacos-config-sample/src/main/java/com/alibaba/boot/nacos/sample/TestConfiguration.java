@@ -22,12 +22,17 @@ import com.alibaba.nacos.api.config.annotation.NacosValue;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 配置属性
+ *
  * @author <a href="mailto:liaochunyhm@live.com">liaochuntao</a>
- * @since
+ * @see Configuration
  */
 @Configuration
 public class TestConfiguration {
 
+	/**
+	 * 配置属性值
+	 */
 	@NacosValue(value = "${people.count:0}", autoRefreshed = true)
 	private String count;
 
@@ -39,6 +44,11 @@ public class TestConfiguration {
 		this.count = count;
 	}
 
+	/**
+	 * 配置监视器
+	 *
+	 * @see NacosConfigListener
+	 */
 	@NacosConfigListener(dataId = "listener.test", timeout = 500)
 	public void onChange(String newContent) throws Exception {
 		System.out.println("onChange : " + newContent);

@@ -33,6 +33,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+	/**
+	 * 配置属性值
+	 *
+	 * @see NacosValue
+	 */
 	@NacosValue(value = "${people.enable:bbbbb}", autoRefreshed = true)
 	private String enable;
 
@@ -42,6 +47,9 @@ public class TestController {
 	@Autowired
 	private Apple apple;
 
+	/**
+	 * 配置属性
+	 */
 	@Autowired
 	private TestConfiguration configuration;
 
@@ -57,7 +65,7 @@ public class TestController {
 	}
 
 	@GetMapping("/apple")
-	public String getApplr() {
+	public String getApple() {
 		return apple.toString();
 	}
 
