@@ -1,3 +1,4 @@
+
 # Nacos Spring Boot Project
 
 [![Build Status](https://travis-ci.org/nacos-group/nacos-spring-boot-project.svg?branch=master)](https://travis-ci.org/nacos-group/nacos-spring-boot-project)
@@ -6,9 +7,13 @@
 including:
 
 - Service Discovery and Service Health Check
+  服务发现和服务运行状况检查
 - Dynamic Configuration Management
+  动态配置管理
 - Dynamic DNS Service
+  动态DNS服务
 - Service and MetaData Management
+  服务和元数据管理
 
 [Nacos Spring Boot Project](https://github.com/nacos-group/nacos-spring-boot-project) is based on [it](https://github.com/alibaba/nacos) and embraces Spring Boot ECO System so that developers could build Spring Boot application rapidly. 
 
