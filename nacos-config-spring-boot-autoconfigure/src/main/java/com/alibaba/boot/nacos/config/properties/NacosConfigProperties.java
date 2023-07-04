@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.alibaba.boot.nacos.config.properties;
 
 import java.util.ArrayList;
@@ -112,7 +111,7 @@ public class NacosConfigProperties {
 	private String configLongPollTimeout;
 
 	/**
-	 * 重试时间
+	 * 重试超时时间
 	 */
 	private String configRetryTime;
 
