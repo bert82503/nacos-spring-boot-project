@@ -40,7 +40,7 @@ import static com.alibaba.nacos.spring.util.NacosBeanUtils.CONFIG_GLOBAL_NACOS_P
 // 属性条件匹配注入
 @ConditionalOnProperty(name = NacosConfigConstants.ENABLED, matchIfMissing = true)
 @ConditionalOnMissingBean(name = CONFIG_GLOBAL_NACOS_PROPERTIES_BEAN_NAME)
-// 配置属性集
+// 配置属性集自动注入
 @EnableConfigurationProperties(value = NacosConfigProperties.class)
 @ConditionalOnClass(name = "org.springframework.boot.context.properties.bind.Binder")
 @Import(value = { NacosConfigBootBeanDefinitionRegistrar.class })

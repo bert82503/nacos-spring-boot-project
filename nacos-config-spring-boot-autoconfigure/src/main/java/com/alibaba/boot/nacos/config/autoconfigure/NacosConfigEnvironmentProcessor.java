@@ -43,7 +43,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * In the Context to create premise before loading the log configuration information
- * 在加载日志配置信息之前创建前提的服务
+ * 在加载日志配置信息之前创建前提条件的配置服务
  *
  * @author <a href="mailto:liaochunyhm@live.com">liaochuntao</a>
  * @since 0.2.3
@@ -76,7 +76,7 @@ public class NacosConfigEnvironmentProcessor
 	/**
 	 * 配置服务构建者
 	 */
-	private Function<Properties, ConfigService> builder = properties -> {
+	private final Function<Properties, ConfigService> builder = properties -> {
 		try {
 			// 配置属性集身份
 			final String key = NacosUtils.identify(properties);
