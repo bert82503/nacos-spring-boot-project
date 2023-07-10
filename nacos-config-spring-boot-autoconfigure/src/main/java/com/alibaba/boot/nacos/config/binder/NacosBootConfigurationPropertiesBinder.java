@@ -33,6 +33,7 @@ import org.springframework.core.ResolvableType;
 import org.springframework.core.env.StandardEnvironment;
 
 /**
+ * 配置属性集绑定器
  * @author <a href="mailto:liaochunyhm@live.com">liaochuntao</a>
  * @since 0.2.2
  */

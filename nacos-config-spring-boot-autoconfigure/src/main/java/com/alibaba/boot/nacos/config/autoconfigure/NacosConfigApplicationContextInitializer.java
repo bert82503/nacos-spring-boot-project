@@ -90,9 +90,9 @@ public class NacosConfigApplicationContextInitializer
 		final NacosConfigLoader configLoader = NacosConfigLoaderFactory.getSingleton(
 				nacosConfigProperties, environment, builder);
 
-		if (!processor.snapshotEnable()){
-			SnapShotSwitch.setIsSnapShot(false);
-		}
+        if (!processor.snapshotEnable()) {
+            SnapShotSwitch.setIsSnapShot(false);
+        }
 
 		if (!enable()) {
 			logger.info("[Nacos Config Boot] : The preload configuration is not enabled");
@@ -106,8 +106,8 @@ public class NacosConfigApplicationContextInitializer
 				// 发布延迟服务
 				processor.publishDeferService(context);
 				// 增加自动刷新的监视器
-				configLoader
-						.addListenerIfAutoRefreshed(processor.getDeferPropertySources());
+				configLoader.addListenerIfAutoRefreshed(
+						processor.getDeferPropertySources());
 			}
 			else {
 				// 加载配置
@@ -118,8 +118,7 @@ public class NacosConfigApplicationContextInitializer
 		}
 
 		final ConfigurableListableBeanFactory factory = context.getBeanFactory();
-		if (!factory
-				.containsSingleton(NacosBeanUtils.GLOBAL_NACOS_PROPERTIES_BEAN_NAME)) {
+		if (!factory.containsSingleton(NacosBeanUtils.GLOBAL_NACOS_PROPERTIES_BEAN_NAME)) {
 			// 注册从配置加载器加载的全局属性集
 			factory.registerSingleton(NacosBeanUtils.GLOBAL_NACOS_PROPERTIES_BEAN_NAME,
 					configLoader.getGlobalProperties());

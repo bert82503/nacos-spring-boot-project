@@ -102,8 +102,7 @@ public class NacosConfigEnvironmentProcessor
 		// 应用上下文初始化程序
 		application.addInitializers(new NacosConfigApplicationContextInitializer(this));
 		// 基于环境组件构建配置属性集
-		nacosConfigProperties = NacosConfigPropertiesUtils
-				.buildNacosConfigProperties(environment);
+		nacosConfigProperties = NacosConfigPropertiesUtils.buildNacosConfigProperties(environment);
 		if (enable()) {
 			// 预加载的日志配置
 			System.out.println(
@@ -114,7 +113,8 @@ public class NacosConfigEnvironmentProcessor
 			NacosConfigLoader nacosConfigLoader = NacosConfigLoaderFactory
 					.getSingleton(nacosConfigProperties, environment, builder);
 			// 构建日志自动刷新处理程序
-			LogAutoFreshProcess.build(environment, nacosConfigProperties, nacosConfigLoader, builder)
+			LogAutoFreshProcess.build(environment, nacosConfigProperties,
+					nacosConfigLoader, builder)
 					.process();
 		}
 	}
