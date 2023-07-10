@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.alibaba.boot.nacos.config.util.log;
 
 import com.alibaba.boot.nacos.config.properties.NacosConfigProperties;
@@ -45,6 +44,7 @@ import java.util.Properties;
 import java.util.function.Function;
 
 /**
+ * 基于日志输出的配置自动刷新处理器
  * Start:
  * Step1: get the log XML configuration from the configuration center
  * Step2: modify the springboot log configuration path
@@ -57,12 +57,21 @@ public class LogAutoFreshProcess {
 
     private static final Logger LOGGER = LogUtils.logger(LogAutoFreshProcess.class);
 
+    /**
+     * 配置属性集
+     */
     private final NacosConfigProperties nacosConfigProperties;
 
     private final ConfigurableEnvironment environment;
 
+    /**
+     * 配置加载器
+     */
     private final NacosConfigLoader nacosConfigLoader;
 
+    /**
+     * 缓存服务构建者
+     */
     private final Function<Properties, ConfigService> builder;
 
     private static final List<String> LOG_DATA_ID = new ArrayList<>();
@@ -87,15 +96,20 @@ public class LogAutoFreshProcess {
     }
 
     public void process() {
+        // 分组名称
         final String groupName = environment
                 .resolvePlaceholders(nacosConfigProperties.getGroup());
+        // 构建配置服务
         ConfigService configService = builder.apply(nacosConfigLoader.getGlobalProperties());
+        // 日志数据身份
         for (String dataId : LOG_DATA_ID) {
+            // 配置内容
             String content = NacosUtils.getContent(configService, dataId, groupName);
             if (StringUtils.isNotBlank(content)) {
-                writeLogFile(content, dataId);
+                this.writeLogFile(content, dataId);
                 System.setProperty(LoggingApplicationListener.CONFIG_PROPERTY, LOG_CACHE_BASE + File.separator + dataId);
-                registerListener(configService, dataId, groupName);
+                // 注册监视器
+                this.registerListener(configService, dataId, groupName);
                 return;
             }
         }
@@ -108,6 +122,7 @@ public class LogAutoFreshProcess {
                 public void receiveConfigInfo(String configInfo) {
                     if (StringUtils.isNotBlank(configInfo)) {
                         writeLogFile(configInfo, dataId);
+                        // 重新加载配置
                         reloadConfig(LOG_CACHE_BASE + File.separator + dataId);
                     }
                 }
