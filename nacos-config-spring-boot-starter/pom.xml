@@ -28,7 +28,6 @@
     <name>Nacos Config Spring Boot Starter</name>
     <description>Nacos Config Spring Boot Starter</description>
 
-
     <dependencies>
         <!-- Spring Boot dependencies -->
         <dependency>
@@ -53,7 +52,6 @@
             <artifactId>nacos-client</artifactId>
             <version>${nacos.version}</version>
         </dependency>
-        
         
         <dependency>
             <groupId>com.alibaba.boot</groupId>

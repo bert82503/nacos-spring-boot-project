@@ -27,6 +27,7 @@
     <packaging>jar</packaging>
     <name>Nacos Config Spring Boot AutoConfigure</name>
     <description>Nacos Config Spring Boot AutoConfigure</description>
+
     <build>
         <plugins>
             <plugin>
@@ -39,7 +40,6 @@
             </plugin>
         </plugins>
     </build>
-
 
     <dependencies>
         <!-- Spring Boot dependencies -->
@@ -64,6 +64,12 @@
         <!-- Nacos -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-spring-context</artifactId>
             <optional>true</optional>
             <exclusions>
@@ -73,14 +79,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-    
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>${nacos.version}</version>
-        </dependency>
-        
-        
+
         <dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>nacos-spring-boot-base</artifactId>
